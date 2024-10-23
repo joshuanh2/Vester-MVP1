@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import Head from "next/head"; // Import Head component
 import "./globals.css";
 
 const geistSans = localFont({
@@ -9,6 +10,7 @@ const geistSans = localFont({
   variable: "--font-geist-sans",
   weight: "100 900",
 });
+
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
@@ -23,10 +25,16 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode; // Ensure children is typed as ReactNode
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <Head>
+        {/* Check metadata.title and metadata.description to ensure they are not null or undefined */}
+        <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+        <title>{metadata.title ?? 'Default Title'}</title>
+        <meta name="description" content={metadata.description ?? 'Default description'} />
+      </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -36,7 +44,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          {children || <div>No content available</div>} {/* Provide fallback for children */}
           <Toaster />
         </ThemeProvider>
       </body>
