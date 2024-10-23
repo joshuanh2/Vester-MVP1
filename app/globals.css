@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+    .text-balance {
+        text-wrap: balance;
+    }
+}
+
+@layer base {
+    :root {
+        --background: #d3dcf0; /* Light grayish blue */
+        --foreground: #132f69; /* Dark blue */
+        --card: #d3dcf0; /* Light grayish blue */
+        --card-foreground: #132f69; /* Dark blue */
+        --popover: #d3dcf0; /* Light grayish blue */
+        --popover-foreground: #132f69; /* Dark blue */
+        --primary: #129de8; /* Bright blue */
+        --primary-foreground: #ffffff; /* White */
+        --secondary: #132f69; /* Dark blue */
+        --secondary-foreground: #ffffff; /* White */
+        --muted: #a9aeb8; /* Gray */
+        --muted-foreground: #132f69; /* Dark blue */
+        --accent: #129de8; /* Bright blue */
+        --accent-foreground: #ffffff; /* White */
+        --destructive: #ebc715; /* Yellow */
+        --destructive-foreground: #ffffff; /* White */
+        --border: #a9aeb8; /* Gray */
+        --input: #d3dcf0; /* Light grayish blue */
+        --ring: #129de8; /* Bright blue */
+        --radius: 0.75rem;
+        --chart-1: #ebc715; /* Yellow */
+        --chart-2: #129de8; /* Bright blue */
+        --chart-3: #132f69; /* Dark blue */
+        --chart-4: #d3dcf0; /* Light grayish blue */
+        --chart-5: #a9aeb8; /* Gray */
+    }
+    .dark {
+        --background: #132f69; /* Dark blue */
+        --foreground: #d3dcf0; /* Light grayish blue */
+        --card: #132f69; /* Dark blue */
+        --card-foreground: #d3dcf0; /* Light grayish blue */
+        --popover: #132f69; /* Dark blue */
+        --popover-foreground: #d3dcf0; /* Light grayish blue */
+        --primary: #129de8; /* Bright blue */
+        --primary-foreground: #d3dcf0; /* Light grayish blue */
+        --secondary: #d3dcf0; /* Light grayish blue */
+        --secondary-foreground: #132f69; /* Dark blue */
+        --muted: #a9aeb8; /* Gray */
+        --muted-foreground: #d3dcf0; /* Light grayish blue */
+        --accent: #129de8; /* Bright blue */
+        --accent-foreground: #d3dcf0; /* Light grayish blue */
+        --destructive: #ebc715; /* Yellow */
+        --destructive-foreground: #132f69; /* Dark blue */
+        --border: #a9aeb8; /* Gray */
+        --input: #132f69; /* Dark blue */
+        --ring: #129de8; /* Bright blue */
+        --chart-1: #ebc715; /* Yellow */
+        --chart-2: #129de8; /* Bright blue */
+        --chart-3: #132f69; /* Dark blue */
+        --chart-4: #d3dcf0; /* Light grayish blue */
+        --chart-5: #a9aeb8; /* Gray */
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+@layer utilities {
+    @keyframes fadeInUp {
+        0% {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes pulse {
+        0%,
+        100% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0.7;
+        }
+    }
+
+    .animate-fade-in-up {
+        animation: fadeInUp 0.3s ease-out forwards;
+    }
+
+    .animate-pulse {
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+}
