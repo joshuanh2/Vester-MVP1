@@ -13,5 +13,18 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2  # Check out your repository code
 
-    - name: Use ANTHROPIC API Key
-      run: echo "The API key is ${{ secrets.ANTHROPIC_API_KEY }}"  # Access the ANTHROPIC API key from secrets
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'  # Specify your Node.js version, Next.js generally supports Node 16+
+
+    - name: Install dependencies
+      run: npm install  # Install your Next.js dependencies
+
+    - name: Build Next.js app
+      run: npm run build  # Build the Next.js app
+      env:
+        NEXT_PUBLIC_ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}  # Pass the API key securely
+
+    - name: Run tests (optional)
+      run: npm run test  # Run your tests, if any
