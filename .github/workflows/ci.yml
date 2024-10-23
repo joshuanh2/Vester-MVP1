@@ -1,0 +1,17 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2  # Check out your repository code
+
+    - name: Use ANTHROPIC API Key
+      run: echo "The API key is ${{ secrets.ANTHROPIC_API_KEY }}"  # Access the ANTHROPIC API key from secrets
