@@ -539,7 +539,7 @@ export default function AIChat() {
                     </Avatar>
                     <div>
                       <CardTitle className="text-lg">
-                        Financial Assistant
+                        Crypto Assistant
                       </CardTitle>
                       <CardDescription className="text-xs">
                         Powered by Claude
@@ -582,7 +582,7 @@ export default function AIChat() {
 />
       
       <h2 className="text-xl font-semibold mb-2">
-        Financial Assistant
+        Crypto Assistant
       </h2>
       <div className="space-y-4 text-base">
         <div className="flex items-center gap-3">

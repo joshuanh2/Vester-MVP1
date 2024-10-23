@@ -1,11 +1,17 @@
-// app/api/finance/route.ts
 import { NextRequest } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import type { ChartData } from "@/types/chart";
 
 // Initialize Anthropic client with correct headers
+const apiKey = process.env.ANTHROPIC_API_KEY;
+if (!apiKey) {
+  console.error("❌ API key is missing. Please check environment variables.");
+} else {
+  console.log("✅ API key is available and properly set.");
+}
+
 const anthropic = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY!,
+  apiKey: apiKey!,
 });
 
 export const runtime = "edge";
@@ -219,7 +225,7 @@ export async function POST(req: NextRequest) {
       tools: tools,
       tool_choice: { type: "auto" },
       messages: anthropicMessages,
-      system: `You are a financial data visualization expert. Your role is to analyze financial data and create clear, meaningful visualizations using generate_graph_data tool:
+      system: `You are a crypto financial data visualization expert. Your role is to analyze crypto financial data and create clear, meaningful visualizations using generate_graph_data tool:
 
 Here are the chart types available and their ideal use cases:
 
@@ -326,7 +332,7 @@ Never:
 - Include technical implementation details in responses
 - NEVER SAY you are using the generate_graph_data tool, just execute it when needed.
 
-Focus on clear financial insights and let the visualization enhance understanding.`,
+Focus on clear crypto financial insights and let the visualization enhance understanding.`,
     });
 
     console.log("✅ Anthropic API Response received:", {
