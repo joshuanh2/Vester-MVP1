@@ -3,12 +3,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Band from '@/components/vester-beta-landing-page-main/src/Components/Band'; // Imported Band component
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import Link from "next/link"; // Import Link component from Next.js
 
 interface TopNavBarProps {
   features?: {
@@ -22,13 +17,12 @@ const TopNavBar: React.FC<TopNavBarProps> = ({ features = {} }) => {
   return (
     <div className="flex items-center justify-between p-4">
       <div className="font-bold text-xl flex gap-4 items-center">
-        {/* Beta Signup Button */}
-        <a
-          href="/vester-beta-landing-page-main"
-          className="bg-[#129de8] text-white font-semibold py-2 px-4 rounded hover:bg-blue-600"
-        >
-          Beta Signup
-        </a>
+        {/* Beta Signup Button using Next.js Link component */}
+        <Link href="/beta-signup" passHref>
+          <a className="bg-[#129de8] text-white font-semibold py-2 px-4 rounded hover:bg-blue-600">
+            Beta Signup
+          </a>
+        </Link>
 
         {/* Company Wordmark */}
         <Image
