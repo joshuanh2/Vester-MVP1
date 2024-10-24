@@ -30,17 +30,7 @@ const TopNavBar: React.FC<TopNavBarProps> = ({ features = {} }) => {
         <span className="font-bold text-[95%]">Conversational Analytics Proof of Concept</span>
       </div>
       <div className="flex items-center gap-2">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="icon">
-              <span className="sr-only">Menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>Option 1</DropdownMenuItem>
-            <DropdownMenuItem>Option 2</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <img src="/vester-profile.png" alt="Description of Image" className="w-full h-auto" />
       </div>
     </div>
   );

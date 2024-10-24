@@ -602,7 +602,7 @@ export default function AIChat() {
         <div className="flex items-center gap-3">
           <MessageCircleQuestion className="text-muted-foreground w-6 h-6" />
           <p className="text-muted-foreground">
-            EXAMPLE: Compare the market cap of Bitcoin to Ethereum with a bar chart
+            EXAMPLE: Compare the market cap of Bitcoin and Ethereum with a bar chart
           </p>
         </div>
       </div>
