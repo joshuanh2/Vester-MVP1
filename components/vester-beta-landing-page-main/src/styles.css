@@ -1,0 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: black;
+  overflow: hidden;
+}
+
+input:focus {
+  outline: none;
+}
+
+textarea:focus {
+  outline: none;
+}
+
+.container {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.content-wrapper {
+  position: absolute;
+  z-index: 1;
+  padding: 20px;
+  margin-left: 100px;
+  margin-top: 20vh;
+  margin-bottom: auto;
+  color: #ffffff;
+  width: 30%;
+  transition: transform 0.5s ease;
+}
+
+.content-wrapper.show-form {
+  transform: translateY(-120px); /* Adjust this value as needed */
+}
+
+.content h1 {
+  font-size: 7vh;
+  margin-bottom: 10px;
+}
+
+.share-container {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.share-container a {
+  margin: auto 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.share-container a:hover {
+  transform: scale(1.2);
+}
+
+.share-container img {
+  width: 20px;
+  height: 20px;
+}
+
+.share-container p {
+  margin-right: 10px;
+  padding-bottom: 3px;
+}
+
+.container hr {
+  color: #888888;
+  border-color: #888888;
+  margin-bottom: 15px;
+}
+
+.sign-up-btn {
+  background-color: #2152B5;
+  color: white;
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 90px;
+  margin-top: 15px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.sign-up-btn:hover {
+  background-color: #132F69;
+}
+
+.sign-up-btn.show-form {
+  display: none;
+}
+
+.sign-up-text.show-form {
+  display: none;
+}
+
+.sign-up-form {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sign-up-form label {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  font-family: Poppins;
+}
+
+.sign-up-form input {
+  padding: 5px 0px;
+  margin-top: 5px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid white;
+  background: none;
+  color: white;
+  font-size: 16px;
+  font-family: Poppins;
+}
+
+.submit-btn {
+  background-color: #2152B5;
+  color: white;
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 90px;
+  padding: 8px 16px;
+  cursor: pointer;
+  margin-top: 5px;
+  width: auto;
+  margin-left: 0px;
+  margin-right: auto;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #132F69;
+}
+
+.canvas-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.canvas-wrapper.dragging {
+  z-index: 2;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* Vester Typography */
+.heading-1 {
+  margin: 0;
+  font-size: 26px;
+  font-size: 6vh;
+  font-weight: 700;
+  font-family: Poppins;
+  margin-bottom: 16px;
+}
+
+.heading-2 {
+  font-family: Poppins;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.body-1, .body-2 {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 0;
+}
+
+.body-1 {
+  font-size: 20px;
+}
+
+.body-2 {
+  font-size: 16px;
+}
+
+.loader {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.thank-you-message {
+  margin: 0;
+}
