@@ -27,6 +27,7 @@ const TopNavBar: React.FC<TopNavBarProps> = ({ features = {} }) => {
           width={168}
           height={30}
         />
+        <span className="font-bold text-[75%]">Visualizations Demo</span>
       </div>
       <div className="flex items-center gap-2">
         <DropdownMenu>
