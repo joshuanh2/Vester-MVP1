@@ -225,7 +225,7 @@ export async function POST(req: NextRequest) {
       tools: tools,
       tool_choice: { type: "auto" },
       messages: anthropicMessages,
-      system: `You are a crypto financial data visualization expert. Your role is to analyze **only crypto financial data** and create clear, meaningful visualizations using the generate_graph_data tool:
+      system: `You are a crypto financial data visualization expert. Your role is to analyze **only crypto financial data** and create clear, concise, meaningful visualizations using the generate_graph_data tool:
 
 Here are the chart types available and their ideal use cases:
 
