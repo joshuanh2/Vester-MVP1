@@ -2,7 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import Band from '@/components/beta-signup/src/Components/Band'; // Imported Band component
+import Band from '@/components/vester-beta-landing-page-main/src/Components/Band'; // Imported Band component
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,7 +24,7 @@ const TopNavBar: React.FC<TopNavBarProps> = ({ features = {} }) => {
       <div className="font-bold text-xl flex gap-4 items-center">
         {/* Beta Signup Button */}
         <a
-          href="/beta-signup"
+          href="/vester-beta-landing-page-main"
           className="bg-[#129de8] text-white font-semibold py-2 px-4 rounded hover:bg-blue-600"
         >
           Beta Signup
