@@ -30,8 +30,11 @@ const TopNavBar: React.FC<TopNavBarProps> = ({ features = {} }) => {
         <span className="font-bold text-[95%]">Conversational Analytics Proof of Concept</span>
       </div>
       <div className="flex items-center gap-2">
-        <img src="/vester-profile.png" alt="Description of Image" className="w-12 h-12" />
-      </div>
+  <a href="mailto:alex@vesterai.com">
+    <img src="/vester-profile.png" alt="Vester Profile" className="w-12 h-12" />
+  </a>
+</div>
+
     </div>
   );
 };
