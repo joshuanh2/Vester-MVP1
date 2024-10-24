@@ -590,19 +590,19 @@ export default function AIChat() {
         <div className="flex items-center gap-3">
           <ChartArea className="text-muted-foreground w-6 h-6" />
           <p className="text-muted-foreground">
-            I can analyze financial data and create visualizations from your files.
+            Ask questions about crypto and I&apos;ll create insightful visuals
           </p>
         </div>
         <div className="flex items-center gap-3">
           <FileInput className="text-muted-foreground w-6 h-6" />
           <p className="text-muted-foreground">
-            Upload CSVs, PDFs, or images and I&apos;ll help you understand the data.
+            Upload CSVs, PDFs, or images and I&apos;ll help you understand the data
           </p>
         </div>
         <div className="flex items-center gap-3">
           <MessageCircleQuestion className="text-muted-foreground w-6 h-6" />
           <p className="text-muted-foreground">
-            Ask questions about your financial data and I&apos;ll create insightful charts.
+            EXAMPLE: Compare the market cap of Bitcoin to Ethereum with a bar chart
           </p>
         </div>
       </div>
