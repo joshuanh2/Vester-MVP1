@@ -106,29 +106,6 @@ const tools: ToolSchema[] = [
   },
 ];
 
-// Function to generate an insight based on the chart data
-function generateInsightSentence(chartData: ChartToolResponse) {
-  const { chartType, data, config } = chartData;
-
-  // Example logic to generate insights based on chart type
-  switch (chartType) {
-    case "line":
-      return `The crypto asset has shown a ${
-        config.trend.direction === "up" ? "positive" : "negative"
-      } trend of ${config.trend.percentage}% over the observed time period.`;
-    case "bar":
-      return `The token comparison shows that ${
-        data[0].category
-      } outperformed others in the last period with ${data[0].value}.`;
-    case "pie":
-      return `The portfolio is predominantly allocated in ${data[0].segment}, making up ${
-        data[0].value
-      }% of the total assets.`;
-    default:
-      return "Key insight: The data shows notable trends worth further analysis.";
-  }
-}
-
 export async function POST(req: NextRequest) {
   try {
     const { messages, fileData, model } = await req.json();
@@ -376,18 +353,12 @@ Never:
       ? processToolResponse(toolUseContent)
       : null;
 
-    // Generate the insight based on chart data
-    const insightSentence = processedChartData
-      ? generateInsightSentence(processedChartData)
-      : null;
-
     return new Response(
       JSON.stringify({
         content: textContent?.text || "",
         hasToolUse: response.content.some((c) => c.type === "tool_use"),
         toolUse: toolUseContent,
         chartData: processedChartData,
-        insight: insightSentence, // Include the insight in the response
       }),
       {
         headers: {
