@@ -542,7 +542,9 @@ export default function AIChat() {
                         Crypto Assistant
                       </CardTitle>
                       <CardDescription className="text-xs">
-                        Powered by Claude
+                        <a href="mailto:alex@vesterai.com" className="underline" style={{ color: '#129de8' }}>
+                          Contact our Team
+                        </a>
                       </CardDescription>
                     </div>
                   </>
