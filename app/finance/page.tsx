@@ -1,3 +1,4 @@
+// app/finance/page.tsx
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
@@ -197,7 +198,7 @@ export default function AIChat() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedModel, setSelectedModel] = useState(
-    "claude-3-5-sonnet-20240620"
+    "claude-3-5-sonnet-20240620",
   );
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chartEndRef = useRef<HTMLDivElement>(null);
@@ -212,6 +213,7 @@ export default function AIChat() {
     const scrollToBottom = () => {
       if (!messagesEndRef.current) return;
 
+      // Use requestAnimationFrame to ensure DOM has updated
       requestAnimationFrame(() => {
         messagesEndRef.current?.scrollIntoView({
           behavior: "smooth",
@@ -220,10 +222,11 @@ export default function AIChat() {
       });
     };
 
+    // Scroll when messages change or when loading state changes
     const timeoutId = setTimeout(scrollToBottom, 100);
 
     return () => clearTimeout(timeoutId);
-  }, [messages, isLoading]);
+  }, [messages, isLoading]); // Add isLoading to dependencies
 
   useEffect(() => {
     if (!messagesEndRef.current) return;
@@ -281,13 +284,14 @@ export default function AIChat() {
 
     setIsUploading(true);
 
+    // Create a ref to store the toast handlers
     let loadingToastRef: { dismiss: () => void } | undefined;
 
     if (file.type === "application/pdf") {
       loadingToastRef = toast({
         title: "Processing PDF",
         description: "Extracting text content...",
-        duration: Infinity,
+        duration: Infinity, // This will keep the toast until we dismiss it
       });
     }
 
@@ -351,7 +355,8 @@ export default function AIChat() {
     } finally {
       setIsUploading(false);
       if (loadingToastRef) {
-        loadingToastRef.dismiss();
+        loadingToastRef.dismiss(); // Use the dismiss method from the toast ref
+        // Show success toast for PDF
         if (file.type === "application/pdf") {
           toast({
             title: "PDF Processed",
@@ -382,19 +387,23 @@ export default function AIChat() {
       content: "thinking",
     };
 
+    // Update messages in a single state update
     setMessages((prev) => [...prev, userMessage, thinkingMessage]);
     setInput("");
     setIsLoading(true);
 
+    // Prepare all messages for the API request
     const apiMessages = [...messages, userMessage].map((msg) => {
       if (msg.file) {
         if (msg.file.isText) {
+          // For text files, decode the content before sending
           const decodedText = decodeURIComponent(atob(msg.file.base64));
           return {
             role: msg.role,
             content: `File contents of ${msg.file.fileName}:\n\n${decodedText}\n\n${msg.content}`,
           };
         } else {
+          // Handle images as before
           return {
             role: msg.role,
             content: [
@@ -414,6 +423,7 @@ export default function AIChat() {
           };
         }
       }
+      // Handle text-only messages
       return {
         role: msg.role,
         content: msg.content,
@@ -461,8 +471,7 @@ export default function AIChat() {
         newMessages[newMessages.length - 1] = {
           id: crypto.randomUUID(),
           role: "assistant",
-          content:
-            "I apologize, but I encountered an error. Please try again.",
+          content: "I apologize, but I encountered an error. Please try again.",
         };
         return newMessages;
       });
@@ -470,6 +479,7 @@ export default function AIChat() {
       setIsLoading(false);
       setIsScrollLocked(false);
 
+      // Force a final scroll after state updates
       requestAnimationFrame(() => {
         messagesEndRef.current?.scrollIntoView({
           behavior: "smooth",
@@ -512,204 +522,216 @@ export default function AIChat() {
         }}
       />
 
-      {/* Content Area now on top */}
-      <Card className="flex-1 flex flex-col h-full overflow-hidden">
-        {messages.some((m) => m.chartData) && (
-          <CardHeader className="py-3 px-4 shrink-0">
-            <CardTitle className="text-lg">Analysis & Visualizations</CardTitle>
-          </CardHeader>
-        )}
-        <CardContent
-          ref={contentRef}
-          className="flex-1 overflow-y-auto min-h-0 snap-y snap-mandatory"
-          onScroll={handleChartScroll}
-        >
-          {messages.some((m) => m.chartData) ? (
-            <div className="min-h-full flex flex-col">
-              {messages.map(
-                (message, index) =>
-                  message.chartData && (
-                    <div
-                      key={`chart-${index}`}
-                      className="w-full min-h-full flex-shrink-0 snap-start snap-always"
-                      ref={
-                        index === messages.filter((m) => m.chartData).length - 1
-                          ? chartEndRef
-                          : null
-                      }
-                    >
-                      <SafeChartRenderer data={message.chartData} />
+      <div className="flex-1 flex bg-background p-4 pt-0 gap-4 h-[calc(100vh-4rem)]">
+        {/* Chat Sidebar */}
+        <Card className="w-1/3 flex flex-col h-full">
+          <CardHeader className="py-3 px-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                {messages.length > 0 && (
+                  <>
+                    <Avatar className="w-8 h-8 border">
+                      <AvatarImage
+                        src="/Vester-logo.svg"
+                        alt="AI Assistant Avatar"
+                      />
+                      <AvatarFallback>AI</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <CardTitle className="text-lg">
+                        Crypto Assistant
+                      </CardTitle>
+                      <CardDescription className="text-xs">
+                        <a href="mailto:alex@vesterai.com" className="underline" style={{ color: '#129de8' }}>
+                          Contact our Team
+                        </a>
+                      </CardDescription>
                     </div>
-                  )
-              )}
-            </div>
-          ) : (
-            <div className="h-full flex flex-col items-center justify-center text-center">
-              <div className="flex flex-col items-center justify-center gap-4 -translate-y-8">
-                <ChartColumnBig className="w-8 h-8 text-muted-foreground" />
-                <div className="space-y-2">
-                  <CardTitle className="text-lg">Analysis & Visualizations</CardTitle>
-                  <CardDescription className="text-base">
-                    Charts and detailed analysis will appear here as you chat
-                  </CardDescription>
-                  <div className="flex flex-wrap justify-center gap-2 mt-4">
-                    <Badge variant="outline">Bar Charts</Badge>
-                    <Badge variant="outline">Area Charts</Badge>
-                    <Badge variant="outline">Linear Charts</Badge>
-                    <Badge variant="outline">Pie Charts</Badge>
-                  </div>
-                </div>
+                  </>
+                )}
               </div>
-            </div>
-          )}
-        </CardContent>
-      </Card>
 
-      {/* Chat Sidebar now on the bottom */}
-      <Card className="w-full flex flex-col h-1/3">
-        <CardHeader className="py-3 px-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-3">
-              {messages.length > 0 && (
-                <>
-                  <Avatar className="w-8 h-8 border">
-                    <AvatarImage src="/Vester-logo.svg" alt="AI Assistant Avatar" />
-                    <AvatarFallback>AI</AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <CardTitle className="text-lg">Crypto Assistant</CardTitle>
-                    <CardDescription className="text-xs">
-                      <a
-                        href="mailto:alex@vesterai.com"
-                        className="underline"
-                        style={{ color: "#129de8" }}
-                      >
-                        Contact our Team
-                      </a>
-                    </CardDescription>
-                  </div>
-                </>
-              )}
-            </div>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="h-8 text-sm">
-                  {models.find((m) => m.id === selectedModel)?.name}
-                  <ChevronDown className="ml-2 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                {models.map((model) => (
-                  <DropdownMenuItem
-                    key={model.id}
-                    onSelect={() => setSelectedModel(model.id)}
-                  >
-                    {model.name}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </CardHeader>
-
-        <CardContent className="flex-1 overflow-y-auto p-4 scroll-smooth snap-y snap-mandatory">
-          {messages.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full animate-fade-in-up max-w-[95%] mx-auto">
-              <img
-                src="/Vester-logo.svg"
-                alt="AI Assistant Avatar"
-                width={40} // Set the appropriate width
-                height={40} // Set the appropriate height
-              />
-              <h2 className="text-xl font-semibold mb-2">Crypto Assistant</h2>
-              <div className="space-y-4 text-base">
-                <div className="flex items-center gap-3">
-                  <ChartArea className="text-muted-foreground w-6 h-6" />
-                  <p className="text-muted-foreground">
-                    I can analyze financial data and create visualizations from your
-                    files.
-                  </p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <FileInput className="text-muted-foreground w-6 h-6" />
-                  <p className="text-muted-foreground">
-                    Upload CSVs, PDFs, or images and I&apos;ll help you understand the
-                    data.
-                  </p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <MessageCircleQuestion className="text-muted-foreground w-6 h-6" />
-                  <p className="text-muted-foreground">
-                    Ask questions about your financial data and I&apos;ll create
-                    insightful charts.
-                  </p>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="space-y-4 min-h-full">
-              {messages.map((message) => (
-                <div
-                  key={message.id}
-                  className={`animate-fade-in-up ${
-                    message.content === "thinking" ? "animate-pulse" : ""
-                  }`}
-                >
-                  <MessageComponent message={message} />
-                </div>
-              ))}
-              <div ref={messagesEndRef} className="h-4" /> {/* Add height to ensure scroll space */}
-            </div>
-          )}
-        </CardContent>
-
-        <CardFooter className="p-4 border-t">
-          <form onSubmit={handleSubmit} className="w-full">
-            <div className="flex flex-col space-y-2">
-              {currentUpload && (
-                <FilePreview file={currentUpload} onRemove={() => setCurrentUpload(null)} />
-              )}
-              <div className="flex items-end space-x-2">
-                <div className="flex-1 relative">
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => fileInputRef.current?.click()}
-                    disabled={isLoading || isUploading}
-                    className="absolute left-2 top-1/2 -translate-y-1/2 h-8 w-8"
-                  >
-                    <Paperclip className="h-5 w-5" />
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="h-8 text-sm">
+                    {models.find((m) => m.id === selectedModel)?.name}
+                    <ChevronDown className="ml-2 h-4 w-4" />
                   </Button>
-                  <Textarea
-                    value={input}
-                    onChange={handleInputChange}
-                    onKeyDown={handleKeyDown}
-                    placeholder="Type your message..."
-                    disabled={isLoading}
-                    className="min-h-[44px] h-[44px] resize-none pl-12 py-3 flex items-center"
-                    rows={1}
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  disabled={isLoading || (!input.trim() && !currentUpload)}
-                  className="h-[44px]"
-                >
-                  <Send className="h-4 w-4" />
-                </Button>
-              </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  {models.map((model) => (
+                    <DropdownMenuItem
+                      key={model.id}
+                      onSelect={() => setSelectedModel(model.id)}
+                    >
+                      {model.name}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
-            <input
-              type="file"
-              ref={fileInputRef}
-              className="hidden"
-              onChange={handleFileSelect}
-            />
-          </form>
-        </CardFooter>
-      </Card>
+          </CardHeader>
+
+          <CardContent className="flex-1 overflow-y-auto p-4 scroll-smooth snap-y snap-mandatory">
+  {messages.length === 0 ? (
+    <div className="flex flex-col items-center justify-center h-full animate-fade-in-up max-w-[95%] mx-auto">
+      
+      <img
+  src="/Vester-logo.svg"
+  alt="AI Assistant Avatar"
+  width={40}  // Set the appropriate width
+  height={40}  // Set the appropriate height
+/>
+      
+      <h2 className="text-xl font-semibold mb-2">
+        Crypto Assistant
+      </h2>
+      <div className="space-y-4 text-base">
+        <div className="flex items-center gap-3">
+          <ChartArea className="text-muted-foreground w-6 h-6" />
+          <p className="text-muted-foreground">
+            I can analyze financial data and create visualizations from your files.
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <FileInput className="text-muted-foreground w-6 h-6" />
+          <p className="text-muted-foreground">
+            Upload CSVs, PDFs, or images and I&apos;ll help you understand the data.
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <MessageCircleQuestion className="text-muted-foreground w-6 h-6" />
+          <p className="text-muted-foreground">
+            Ask questions about your financial data and I&apos;ll create insightful charts.
+          </p>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div className="space-y-4 min-h-full">
+      {messages.map((message) => (
+        <div
+          key={message.id}
+          className={`animate-fade-in-up ${
+            message.content === "thinking" ? "animate-pulse" : ""
+          }`}
+        >
+          <MessageComponent message={message} />
+        </div>
+      ))}
+      <div ref={messagesEndRef} className="h-4" /> {/* Add height to ensure scroll space */}
+    </div>
+  )}
+</CardContent>
+
+          <CardFooter className="p-4 border-t">
+            <form onSubmit={handleSubmit} className="w-full">
+              <div className="flex flex-col space-y-2">
+                {currentUpload && (
+                  <FilePreview
+                    file={currentUpload}
+                    onRemove={() => setCurrentUpload(null)}
+                  />
+                )}
+                <div className="flex items-end space-x-2">
+                  <div className="flex-1 relative">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => fileInputRef.current?.click()}
+                      disabled={isLoading || isUploading}
+                      className="absolute left-2 top-1/2 -translate-y-1/2 h-8 w-8"
+                    >
+                      <Paperclip className="h-5 w-5" />
+                    </Button>
+                    <Textarea
+                      value={input}
+                      onChange={handleInputChange}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Type your message..."
+                      disabled={isLoading}
+                      className="min-h-[44px] h-[44px] resize-none pl-12 py-3 flex items-center"
+                      rows={1}
+                    />
+                  </div>
+                  <Button
+                    type="submit"
+                    disabled={isLoading || (!input.trim() && !currentUpload)}
+                    className="h-[44px]"
+                  >
+                    <Send className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+              <input
+                type="file"
+                ref={fileInputRef}
+                className="hidden"
+                onChange={handleFileSelect}
+              />
+            </form>
+          </CardFooter>
+        </Card>
+
+        {/* Content Area */}
+        <Card className="flex-1 flex flex-col h-full overflow-hidden">
+          {messages.some((m) => m.chartData) && (
+            <CardHeader className="py-3 px-4 shrink-0">
+              <CardTitle className="text-lg">
+                Analysis & Visualizations
+              </CardTitle>
+            </CardHeader>
+          )}
+          <CardContent
+            ref={contentRef}
+            className="flex-1 overflow-y-auto min-h-0 snap-y snap-mandatory"
+            onScroll={handleChartScroll}
+          >
+            {messages.some((m) => m.chartData) ? (
+              <div className="min-h-full flex flex-col">
+                {messages.map(
+                  (message, index) =>
+                    message.chartData && (
+                      <div
+                        key={`chart-${index}`}
+                        className="w-full min-h-full flex-shrink-0 snap-start snap-always"
+                        ref={
+                          index ===
+                          messages.filter((m) => m.chartData).length - 1
+                            ? chartEndRef
+                            : null
+                        }
+                      >
+                        <SafeChartRenderer data={message.chartData} />
+                      </div>
+                    ),
+                )}
+              </div>
+            ) : (
+              <div className="h-full flex flex-col items-center justify-center text-center">
+                <div className="flex flex-col items-center justify-center gap-4 -translate-y-8">
+                  <ChartColumnBig className="w-8 h-8 text-muted-foreground" />
+                  <div className="space-y-2">
+                    <CardTitle className="text-lg">
+                      Analysis & Visualizations
+                    </CardTitle>
+                    <CardDescription className="text-base">
+                      Charts and detailed analysis will appear here as you chat
+                    </CardDescription>
+                    <div className="flex flex-wrap justify-center gap-2 mt-4">
+                      <Badge variant="outline">Bar Charts</Badge>
+                      <Badge variant="outline">Area Charts</Badge>
+                      <Badge variant="outline">Linear Charts</Badge>
+                      <Badge variant="outline">Pie Charts</Badge>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
       {messages.some((m) => m.chartData) && (
         <ChartPagination
           total={messages.filter((m) => m.chartData).length}
