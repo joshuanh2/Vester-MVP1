@@ -1,109 +1,108 @@
+/* /app/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* Reset and Base Styles */
+html, body, #__next {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: "Inter Tight", sans-serif;
+}
+
 body {
-    font-family: Arial, Helvetica, sans-serif;
+  @apply bg-background text-foreground;
 }
 
-@layer utilities {
-    .text-balance {
-        text-wrap: balance;
-    }
-}
-
+/* CSS Variables and Theme Definitions */
 @layer base {
-    :root {
-        --background: #d3dcf0; /* Light grayish blue */
-        --foreground: #132f69; /* Dark blue */
-        --card: #d3dcf0; /* Light grayish blue */
-        --card-foreground: #132f69; /* Dark blue */
-        --popover: #d3dcf0; /* Light grayish blue */
-        --popover-foreground: #132f69; /* Dark blue */
-        --primary: #129de8; /* Bright blue */
-        --primary-foreground: #ffffff; /* White */
-        --secondary: #132f69; /* Dark blue */
-        --secondary-foreground: #ffffff; /* White */
-        --muted: #a9aeb8; /* Gray */
-        --muted-foreground: #132f69; /* Dark blue */
-        --accent: #129de8; /* Bright blue */
-        --accent-foreground: #ffffff; /* White */
-        --destructive: #ebc715; /* Yellow */
-        --destructive-foreground: #ffffff; /* White */
-        --border: #a9aeb8; /* Gray */
-        --input: #d3dcf0; /* Light grayish blue */
-        --ring: #129de8; /* Bright blue */
-        --radius: 0.75rem;
-        --chart-1: #ebc715; /* Yellow */
-        --chart-2: #129de8; /* Bright blue */
-        --chart-3: #132f69; /* Dark blue */
-        --chart-4: #d3dcf0; /* Light grayish blue */
-        --chart-5: #a9aeb8; /* Gray */
-    }
-    .dark {
-        --background: #132f69; /* Dark blue */
-        --foreground: #d3dcf0; /* Light grayish blue */
-        --card: #132f69; /* Dark blue */
-        --card-foreground: #d3dcf0; /* Light grayish blue */
-        --popover: #132f69; /* Dark blue */
-        --popover-foreground: #d3dcf0; /* Light grayish blue */
-        --primary: #129de8; /* Bright blue */
-        --primary-foreground: #d3dcf0; /* Light grayish blue */
-        --secondary: #d3dcf0; /* Light grayish blue */
-        --secondary-foreground: #132f69; /* Dark blue */
-        --muted: #a9aeb8; /* Gray */
-        --muted-foreground: #d3dcf0; /* Light grayish blue */
-        --accent: #129de8; /* Bright blue */
-        --accent-foreground: #d3dcf0; /* Light grayish blue */
-        --destructive: #ebc715; /* Yellow */
-        --destructive-foreground: #132f69; /* Dark blue */
-        --border: #a9aeb8; /* Gray */
-        --input: #132f69; /* Dark blue */
-        --ring: #129de8; /* Bright blue */
-        --chart-1: #ebc715; /* Yellow */
-        --chart-2: #129de8; /* Bright blue */
-        --chart-3: #132f69; /* Dark blue */
-        --chart-4: #d3dcf0; /* Light grayish blue */
-        --chart-5: #a9aeb8; /* Gray */
-    }
+  :root {
+    /* Light Mode Variables */
+    --background: #f1f5f9; /* Tailwind gray-100 */
+    --foreground: #1e3a8a; /* Tailwind blue-900 */
+    --card: #f1f5f9; /* Tailwind gray-100 */
+    --card-foreground: #1e3a8a; /* Tailwind blue-900 */
+    --popover: #f1f5f9; /* Tailwind gray-100 */
+    --popover-foreground: #1e3a8a; /* Tailwind blue-900 */
+    --primary: #0ea5e9; /* Tailwind sky-500 */
+    --primary-foreground: #ffffff; /* White */
+    --secondary: #1e3a8a; /* Tailwind blue-900 */
+    --secondary-foreground: #ffffff; /* White */
+    --muted: #94a3b8; /* Tailwind gray-400 */
+    --muted-foreground: #1e3a8a; /* Tailwind blue-900 */
+    --accent: #0ea5e9; /* Tailwind sky-500 */
+    --accent-foreground: #ffffff; /* White */
+    --destructive: #facc15; /* Tailwind yellow-400 */
+    --destructive-foreground: #ffffff; /* White */
+    --border: #94a3b8; /* Tailwind gray-400 */
+    --input: #f1f5f9; /* Tailwind gray-100 */
+    --ring: #0ea5e9; /* Tailwind sky-500 */
+    --radius: 0.75rem;
+    /* Chart Colors */
+    --chart-1: #facc15; /* Tailwind yellow-400 */
+    --chart-2: #0ea5e9; /* Tailwind sky-500 */
+    --chart-3: #1e3a8a; /* Tailwind blue-900 */
+    --chart-4: #f1f5f9; /* Tailwind gray-100 */
+    --chart-5: #94a3b8; /* Tailwind gray-400 */
+  }
+
+  .dark {
+    /* Dark Mode Variables */
+    --background: #1e3a8a; /* Tailwind blue-900 */
+    --foreground: #f1f5f9; /* Light grayish blue */
+    --card: #1e3a8a; /* Dark blue */
+    --card-foreground: #f1f5f9; /* Light grayish blue */
+    /* Chart Colors remain the same for consistency */
+    --chart-1: #facc15; /* Tailwind yellow-400 */
+    --chart-2: #0ea5e9; /* Tailwind sky-500 */
+    --chart-3: #1e3a8a; /* Tailwind blue-900 */
+    --chart-4: #f1f5f9; /* Tailwind gray-100 */
+    --chart-5: #94a3b8; /* Tailwind gray-400 */
+  }
+
+  /* Apply Border Styles */
+  * {
+    @apply border-border;
+  }
 }
 
-@layer base {
-    * {
-        @apply border-border;
-    }
-    body {
-        @apply bg-background text-foreground;
-    }
-}
-
+/* Custom Utilities */
 @layer utilities {
-    @keyframes fadeInUp {
-        0% {
-            opacity: 0;
-            transform: translateY(10px);
-        }
-        100% {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+  .text-balance {
+    text-wrap: balance;
+  }
 
-    @keyframes pulse {
-        0%,
-        100% {
-            opacity: 1;
-        }
-        50% {
-            opacity: 0.7;
-        }
+  /* Animations */
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(10px);
     }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
-    .animate-fade-in-up {
-        animation: fadeInUp 0.3s ease-out forwards;
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 1;
     }
+    50% {
+      opacity: 0.7;
+    }
+  }
 
-    .animate-pulse {
-        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-    }
+  .animate-fade-in-up {
+    animation: fadeInUp 0.3s ease-out forwards;
+  }
+
+  .animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
 }

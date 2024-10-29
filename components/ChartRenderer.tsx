@@ -1,3 +1,4 @@
+// /components/ChartRender.tsx
 "use client";
 
 import React from "react";
@@ -31,7 +32,7 @@ import {
 import type { ChartData } from "@/types/chart";
 
 function BarChartComponent({ data }: { data: ChartData }) {
-  const dataKey = Object.keys(data.chartConfig)[0];
+  const dataKeys = Object.keys(data.chartConfig);
 
   return (
     <Card>
@@ -41,28 +42,29 @@ function BarChartComponent({ data }: { data: ChartData }) {
       </CardHeader>
       <CardContent>
         <ChartContainer config={data.chartConfig}>
-          <BarChart accessibilityLayer data={data.data}>
+          <BarChart data={data.data}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey={data.config.xAxisKey}
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => {
-                return value.length > 20
-                  ? `${value.substring(0, 17)}...`
-                  : value;
-              }}
+              tickFormatter={(value) =>
+                value.length > 20 ? `${value.substring(0, 17)}...` : value
+              }
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <Bar
-              dataKey={dataKey}
-              fill={`var(--color-${dataKey})`}
-              radius={8}
-            />
+            {dataKeys.map((key, index) => (
+              <Bar
+                key={key}
+                dataKey={key}
+                fill={`var(--chart-${index + 1})`} // Use chart-x variables
+                radius={8}
+              />
+            ))}
           </BarChart>
         </ChartContainer>
       </CardContent>
@@ -89,6 +91,8 @@ function BarChartComponent({ data }: { data: ChartData }) {
 }
 
 function MultiBarChartComponent({ data }: { data: ChartData }) {
+  const dataKeys = Object.keys(data.chartConfig);
+
   return (
     <Card>
       <CardHeader>
@@ -97,28 +101,26 @@ function MultiBarChartComponent({ data }: { data: ChartData }) {
       </CardHeader>
       <CardContent>
         <ChartContainer config={data.chartConfig}>
-          <BarChart accessibilityLayer data={data.data}>
+          <BarChart data={data.data}>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey={data.config.xAxisKey}
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tickFormatter={(value) => {
-                return value.length > 20
-                  ? `${value.substring(0, 17)}...`
-                  : value;
-              }}
+              tickFormatter={(value) =>
+                value.length > 20 ? `${value.substring(0, 17)}...` : value
+              }
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="dashed" />}
             />
-            {Object.keys(data.chartConfig).map((key) => (
+            {dataKeys.map((key, index) => (
               <Bar
                 key={key}
                 dataKey={key}
-                fill={`var(--color-${key})`}
+                fill={`var(--chart-${index + 1})`} // Use chart-x variables
                 radius={4}
               />
             ))}
@@ -148,6 +150,8 @@ function MultiBarChartComponent({ data }: { data: ChartData }) {
 }
 
 function LineChartComponent({ data }: { data: ChartData }) {
+  const dataKeys = Object.keys(data.chartConfig);
+
   return (
     <Card>
       <CardHeader>
@@ -157,7 +161,6 @@ function LineChartComponent({ data }: { data: ChartData }) {
       <CardContent>
         <ChartContainer config={data.chartConfig}>
           <LineChart
-            accessibilityLayer
             data={data.data}
             margin={{
               left: 12,
@@ -170,22 +173,20 @@ function LineChartComponent({ data }: { data: ChartData }) {
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => {
-                return value.length > 20
-                  ? `${value.substring(0, 17)}...`
-                  : value;
-              }}
+              tickFormatter={(value) =>
+                value.length > 20 ? `${value.substring(0, 17)}...` : value
+              }
             />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            {Object.keys(data.chartConfig).map((key) => (
+            {dataKeys.map((key, index) => (
               <Line
                 key={key}
                 type="natural"
                 dataKey={key}
-                stroke={`var(--color-${key})`}
+                stroke={`var(--chart-${index + 1})`} // Use chart-x variables
                 strokeWidth={2}
                 dot={false}
               />
@@ -223,8 +224,7 @@ function PieChartComponent({ data }: { data: ChartData }) {
   const chartData = data.data.map((item, index) => {
     return {
       ...item,
-      // Use the same color variable pattern as other charts
-      fill: `hsl(var(--chart-${index + 1}))`,
+      fill: `var(--chart-${index + 1})`, // Use chart-x variables
     };
   });
 
@@ -314,6 +314,8 @@ function AreaChartComponent({
   data: ChartData;
   stacked?: boolean;
 }) {
+  const dataKeys = Object.keys(data.chartConfig);
+
   return (
     <Card>
       <CardHeader>
@@ -323,7 +325,6 @@ function AreaChartComponent({
       <CardContent>
         <ChartContainer config={data.chartConfig}>
           <AreaChart
-            accessibilityLayer
             data={data.data}
             margin={{
               left: 12,
@@ -336,26 +337,26 @@ function AreaChartComponent({
               tickLine={false}
               axisLine={false}
               tickMargin={8}
-              tickFormatter={(value) => {
-                return value.length > 20
-                  ? `${value.substring(0, 17)}...`
-                  : value;
-              }}
+              tickFormatter={(value) =>
+                value.length > 20 ? `${value.substring(0, 17)}...` : value
+              }
             />
             <ChartTooltip
               cursor={false}
               content={
-                <ChartTooltipContent indicator={stacked ? "dot" : "line"} />
+                <ChartTooltipContent
+                  indicator={stacked ? "dot" : "line"}
+                />
               }
             />
-            {Object.keys(data.chartConfig).map((key) => (
+            {dataKeys.map((key, index) => (
               <Area
                 key={key}
                 type="natural"
                 dataKey={key}
-                fill={`var(--color-${key})`}
+                fill={`var(--chart-${index + 1})`} // Use chart-x variables
                 fillOpacity={0.4}
-                stroke={`var(--color-${key})`}
+                stroke={`var(--chart-${index + 1})`}
                 stackId={stacked ? "a" : undefined}
               />
             ))}

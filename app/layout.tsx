@@ -1,3 +1,4 @@
+// /app/layout.tsx
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -43,7 +44,7 @@ export default function RootLayout({
         />
       </Head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`} // Corrected syntax
       >
         <ThemeProvider
           attribute="class"

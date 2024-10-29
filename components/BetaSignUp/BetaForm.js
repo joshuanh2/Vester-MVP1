@@ -1,23 +1,46 @@
-import './styles.css';
-import { useState } from 'react';
+"use client";
+
+import './BetaForm.css';
+import { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
-import Band from './Components/Band';
+import Band from './Band';
 import { Suspense } from 'react';
 import { Environment, Lightformer } from '@react-three/drei';
 import { grid } from 'ldrs'
+import { tailspin } from 'ldrs'
+
 
 
 // import instaIcon from './assets/instagram-icon.png';
-import linkedinIcon from './assets/linkedin-icon.png';
+import linkedinIcon from './Assets/linkedin-icon.png';
 
-function App() {
+function BetaForm() {
   const [isDragging, setIsDragging] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [formSent, setFormSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isPageLoading, setIsPageLoading] = useState(true);
 
   grid.register()
+  tailspin.register()
+
+  // Scroll to bottom when component first loads
+  useEffect(() => {
+    window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: 'smooth'
+    });
+
+    // Lets the page load before showing all the content
+    const timer = setTimeout(() => {
+        setIsPageLoading(false);
+      }, 1000);
+  
+      // Cleanup timer if component unmounts before timeout completes
+      return () => clearTimeout(timer);
+
+  }, []);
 
   const handleButtonClick = () => {
     setShowForm(!showForm);
@@ -35,7 +58,7 @@ function App() {
       source: formData.get('source'),
     };
 
-    const response = await fetch('https://script.google.com/macros/s/AKfycbx15a1HKKELxmX-Xeak5DsMK2OGwR-xJFYokmcLK7mEIUZRbrh5IsqEgimkhA99USVG/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbw87MYx5dbtTXsiajEJulBLo1-EFz5Lwili72MBfLWxDJZN7S_XS0DmBskpudePypQf/exec', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
@@ -55,9 +78,18 @@ function App() {
   };
 
   return (
+    <div className='container-full w-screen h-screen'>
     <div className="container">
+        
+      {isPageLoading && (
+        <div className="loader-container">
+          <div className="page-loader">
+            <l-tailspin size="100" speed="0.9" stroke='15' color="white"></l-tailspin>
+          </div>
+        </div>
+      )}
 
-      <div className={`content-wrapper ${showForm ? 'show-form' : ''}`}>
+      <div className={`content-wrapper ${showForm ? 'show-form' : ''} w-full h-full`}>
         <div className="content">
 
           <p className='heading-1'>Your ticket to ride is here</p>
@@ -113,8 +145,8 @@ function App() {
         )}
       </div>
 
-      <div className={`canvas-wrapper ${isDragging ? 'dragging' : ''}`}>
-        <Canvas className="canvas" camera={{ position: [0, 0, 3], fov: 50 }}>
+      <div className={`canvas-wrapper ${isDragging ? 'dragging' : ''} w-full h-full`}>
+        <Canvas className="canvas w-full h-full" camera={{ position: [0, 0, 3], fov: 50 }}>
           <ambientLight intensity={10} />
           { /*
           <directionalLight intensity={2} position={[-1, 0, 5]} />
@@ -135,7 +167,8 @@ function App() {
         </Canvas>
       </div>
     </div>
+    </div>
   );
 }
 
-export default App;
+export default BetaForm;

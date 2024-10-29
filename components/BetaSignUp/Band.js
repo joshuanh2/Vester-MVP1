@@ -16,7 +16,8 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
   const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 2, linearDamping: 2 };
   const { nodes, materials } = useGLTF('/model.glb');
   const texture = useTexture('/bandtexture.jpg');
-  // const badgeTexture = useTexture('/textures/badge.png');
+  const badgeTexture = useTexture('/assets/badge2.png');
+  badgeTexture.flipY = false;
   const { width, height } = useThree((state) => state.size);
   const [curve] = useState(() => new THREE.CatmullRomCurve3([
     new THREE.Vector3(0, 0, 0),
@@ -66,7 +67,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
       curve.points[2].copy(j1.current.lerped);
       curve.points[3].copy(fixed.current.translation());
       if (band.current) {
-        band.current.geometry.setPoints(curve.getPoints(50));
+        band.current.geometry.setPoints(curve.getPoints(32));
       }
 
       ang.copy(card.current.angvel());
@@ -98,9 +99,23 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
-            onPointerUp={(e) => (e.target.releasePointerCapture(e.pointerId), drag(false))}
-            onPointerDown={(e) => (e.target.setPointerCapture(e.pointerId), drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation()))))}>
+            onPointerUp={(e) => {
+                e.target.releasePointerCapture(e.pointerId);
+                drag(false);
+              }}
+              onPointerDown={(e) => {
+                e.target.setPointerCapture(e.pointerId);
+                drag(new THREE.Vector3().copy(e.point).sub(vec.copy(card.current.translation())));
+              }}>
             <mesh geometry={nodes.badge.geometry} material={materials.badge}>
+            <meshPhysicalMaterial 
+              map={badgeTexture}
+              clearcoat={1} 
+              clearcoatRoughness={0.15} 
+              roughness={0.3} 
+              metalness={0.7} 
+              envMapIntensity={1} 
+            />
             </mesh>
             <mesh geometry={nodes.clip.geometry} material={materials.clip} />
             <primitive object={bandAttachment} />
