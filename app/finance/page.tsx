@@ -524,7 +524,7 @@ export default function AIChat() {
 
       <div className="flex-1 flex bg-background p-4 pt-0 gap-4 h-[calc(100vh-4rem)]">
         {/* Chat Sidebar */}
-        <Card className="w-1/3 flex flex-col h-full">
+        <Card className="w-1/3 flex bg-gray-100 flex-col h-full">
           <CardHeader className="py-3 px-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
@@ -550,7 +550,8 @@ export default function AIChat() {
                   </>
                 )}
               </div>
-
+              
+              {/*
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="h-8 text-sm">
@@ -569,6 +570,7 @@ export default function AIChat() {
                   ))}
                 </DropdownMenuContent>
               </DropdownMenu>
+              */}
             </div>
           </CardHeader>
 
@@ -583,24 +585,24 @@ export default function AIChat() {
   height={40}  // Set the appropriate height
 />
       
-      <h2 className="text-xl font-semibold mb-2">
+      <h2 className="text-xl font-semibold mb-10">
         Crypto Assistant
       </h2>
       <div className="space-y-4 text-base">
         <div className="flex items-center gap-3">
-          <ChartArea className="text-muted-foreground w-6 h-6" />
+          <ChartArea className="min-w-6 min-h-6 text-muted-foreground" />
           <p className="text-muted-foreground">
             Ask questions about crypto and I&apos;ll create insightful visuals
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <FileInput className="text-muted-foreground w-6 h-6" />
+          <FileInput className="text-muted-foreground min-w-6 min-h-6" />
           <p className="text-muted-foreground">
             Upload CSVs, PDFs, or images and I&apos;ll help you understand the data
           </p>
         </div>
         <div className="flex items-center gap-3">
-          <MessageCircleQuestion className="text-muted-foreground w-6 h-6" />
+          <MessageCircleQuestion className="text-muted-foreground min-w-6 min-h-6" />
           <p className="text-muted-foreground">
             EXAMPLE: Compare the market cap of Bitcoin and Ethereum with a bar chart
           </p>
@@ -647,11 +649,16 @@ export default function AIChat() {
                     </Button>
                     <Textarea
                       value={input}
-                      onChange={handleInputChange}
+                      onChange={(e) => {
+                        handleInputChange(e);
+                        e.target.style.height = `${e.target.scrollHeight}px`; // Set height to scrollHeight only after input
+                        e.target.style.overflowY = e.target.scrollHeight > 200 ? "auto" : "hidden"; // Enable scroll only if max height is exceeded
+                      }}
                       onKeyDown={handleKeyDown}
                       placeholder="Type your message..."
                       disabled={isLoading}
-                      className="min-h-[44px] h-[44px] resize-none pl-12 py-3 flex items-center"
+                      className="min-h-[44px] max-h-[200px] resize-none pl-12 py-3 flex items-center overflow-hidden"
+                      style={{ height: "44px" }} // Initial height
                       rows={1}
                     />
                   </div>

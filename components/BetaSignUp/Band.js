@@ -16,7 +16,7 @@ function Band({ maxSpeed = 50, minSpeed = 10 }) {
   const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 2, linearDamping: 2 };
   const { nodes, materials } = useGLTF('/model.glb');
   const texture = useTexture('/bandtexture.jpg');
-  const badgeTexture = useTexture('/assets/badge2.png');
+  const badgeTexture = useTexture('/assets/badge-new.png');
   badgeTexture.flipY = false;
   const { width, height } = useThree((state) => state.size);
   const [curve] = useState(() => new THREE.CatmullRomCurve3([

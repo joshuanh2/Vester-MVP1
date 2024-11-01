@@ -19,7 +19,7 @@ const TopNavBar: React.FC<TopNavBarProps> = ({ features = {} }) => {
 
         {/* Company Wordmark */}
         <Image
-          src="/vester-name.png"
+          src="/vester-name-logo.png"
           alt="Company Wordmark"
           width={168}
           height={30}
@@ -32,7 +32,7 @@ const TopNavBar: React.FC<TopNavBarProps> = ({ features = {} }) => {
 
       <div className="flex items-center gap-2">
         <Link href="/beta-signup" passHref>
-          <span className="bg-[#129de8] text-white font-semibold py-2 px-4 rounded hover:bg-blue-600">
+          <span className="bg-[#129de8] text-white font-semibold py-2 px-4 rounded hover:bg-blue-600 mr-5">
             Beta Signup
           </span>
         </Link>

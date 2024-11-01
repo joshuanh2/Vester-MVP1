@@ -4,11 +4,14 @@ import './BetaForm.css';
 import { useState, useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { Physics } from '@react-three/rapier';
+import Image from "next/image";
 import Band from './Band';
 import { Suspense } from 'react';
 import { Environment, Lightformer } from '@react-three/drei';
 import { grid } from 'ldrs'
 import { tailspin } from 'ldrs'
+import { useRouter } from 'next/navigation';
+import { ArrowLeft } from 'lucide-react';
 
 
 
@@ -22,23 +25,26 @@ function BetaForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
 
+  const router = useRouter();
   grid.register()
   tailspin.register()
 
+
   // Scroll to bottom when component first loads
   useEffect(() => {
+    /* 
     window.scrollTo({
         top: document.body.scrollHeight,
         behavior: 'smooth'
-    });
+    }); */
 
     // Lets the page load before showing all the content
     const timer = setTimeout(() => {
         setIsPageLoading(false);
-      }, 1000);
+    }, 1000);
   
-      // Cleanup timer if component unmounts before timeout completes
-      return () => clearTimeout(timer);
+    // Cleanup timer if component unmounts before timeout completes
+    return () => clearTimeout(timer);
 
   }, []);
 
@@ -78,8 +84,8 @@ function BetaForm() {
   };
 
   return (
-    <div className='container-full w-screen h-screen'>
-    <div className="container">
+    <div className='w-screen h-screen flex flex-col'>
+    <div className="w-full h-full flex flex-col relative">
         
       {isPageLoading && (
         <div className="loader-container">
@@ -89,20 +95,35 @@ function BetaForm() {
         </div>
       )}
 
+          <button
+            onClick={() => router.push('/')} // Navigate back to the main page
+            className="fixed top-4 left-4 bg-none hover:bg-transparent text-white font-semibold py-2 px-4 rounded flex items-center z-20"
+          >
+            <ArrowLeft className="h-5 w-5 mr-1" /> {/* Icon */}
+            Back
+          </button>
+
       <div className={`content-wrapper ${showForm ? 'show-form' : ''} w-full h-full`}>
         <div className="content">
 
           <p className='heading-1'>Your ticket to ride is here</p>
-          <p className='body-1'>You'll receive an email with all the logistical details shortly</p>
+          <p className='body-1'>You'll receive an email with all the details shortly</p>
 
           <div className='share-container'>
             <p className='body-1'>SHARE ON</p>
             {/* <a href='instagram.com'><img src={instaIcon} alt=''></img></a> */}
-            <a href='https://www.linkedin.com/company/thevester/' target="_blank" rel="noreferrer"><img src={linkedinIcon} alt=''></img></a>
+            <a href='https://www.linkedin.com/company/thevester/' target="_blank" rel="noreferrer">
+              <Image
+                src="/assets/linkedin-icon.png"
+                alt="LinkedIn Icon"
+                width={20}
+                height={20}
+              />
+            </a>
           </div>
 
           <div className='content-footer'>
-            <hr/>
+            <hr className='mb-3'/>
             {isLoading ? (
               <div className='loader'>
                 <l-grid
@@ -145,8 +166,8 @@ function BetaForm() {
         )}
       </div>
 
-      <div className={`canvas-wrapper ${isDragging ? 'dragging' : ''} w-full h-full`}>
-        <Canvas className="canvas w-full h-full" camera={{ position: [0, 0, 3], fov: 50 }}>
+      <div className={`canvas-wrapper ${isDragging ? 'dragging' : ''} w-screen h-screen`}>
+        <Canvas className="canvas w-screen h-screen" camera={{ position: [0, 0, 3], fov: 50 }}>
           <ambientLight intensity={10} />
           { /*
           <directionalLight intensity={2} position={[-1, 0, 5]} />
