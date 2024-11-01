@@ -54,6 +54,7 @@ body {
   .dark {
     /* Dark Mode Variables */
     --background: #1e3a8a; /* Tailwind blue-900 */
+    --background-left: #ffffff;
     --foreground: #f1f5f9; /* Light grayish blue */
     --card: #1e3a8a; /* Dark blue */
     --card-foreground: #f1f5f9; /* Light grayish blue */

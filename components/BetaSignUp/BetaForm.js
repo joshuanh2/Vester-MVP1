@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import './BetaForm.css';
 import { useState, useEffect } from 'react';
