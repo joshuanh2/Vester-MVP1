@@ -135,7 +135,7 @@ textarea:focus {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
-  font-family: Poppins;
+  font-family: "Inter Tight", sans-serif;
 }
 
 .sign-up-form input {
@@ -148,13 +148,13 @@ textarea:focus {
   background: none !important;
   color: white;
   font-size: 16px;
-  font-family: Poppins;
+  font-family: "Inter Tight", sans-serif;
 }
 
 .submit-btn {
   background-color: #2152B5;
   color: white;
-  font-family: Poppins;
+  font-family: "Inter Tight", sans-serif;
   font-size: 16px;
   font-weight: 700;
   border: none;
@@ -197,12 +197,12 @@ textarea:focus {
   font-size: 26px;
   font-size: 6vh;
   font-weight: 700;
-  font-family: Poppins;
+  font-family: "Inter Tight", sans-serif;
   margin-bottom: 16px;
 }
 
 .heading-2 {
-  font-family: Poppins;
+  font-family: "Inter Tight", sans-serif;
   font-size: 22px;
   font-style: normal;
   font-weight: 600;
@@ -210,7 +210,7 @@ textarea:focus {
 }
 
 .body-1, .body-2 {
-  font-family: Poppins;
+  font-family: "Inter Tight", sans-serif;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
