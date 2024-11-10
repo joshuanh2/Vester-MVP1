@@ -524,7 +524,7 @@ export default function AIChat() {
 
       <div className="flex-1 flex bg-background p-4 pt-0 gap-4 h-[calc(100vh-4rem)]">
         {/* Chat Sidebar */}
-        <Card className="w-1/3 flex bg-background-left flex-col h-full">
+        <Card className="w-1/3 flex bg-background-left flex-col h-full" style={{ backgroundColor: '#f5f5f5' }}>
           <CardHeader className="py-3 px-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
