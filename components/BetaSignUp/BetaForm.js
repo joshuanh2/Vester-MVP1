@@ -110,9 +110,9 @@ function BetaForm() {
           <p className='body-1'>You'll receive an email with all the details shortly</p>
 
           <div className='share-container'>
-            <p className='body-1'>SHARE ON</p>
+            <p className='body-1'>FOLLOW US</p>
             {/* <a href='instagram.com'><img src={instaIcon} alt=''></img></a> */}
-            <a href='https://www.linkedin.com/company/thevester/' target="_blank" rel="noreferrer">
+            <a href='https://www.linkedin.com/company/vesterai/' target="_blank" rel="noreferrer">
               <Image
                 src="/assets/linkedin-icon.png"
                 alt="LinkedIn Icon"
