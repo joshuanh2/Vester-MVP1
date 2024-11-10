@@ -46,12 +46,14 @@ const config: Config = {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         chart: {
-          '1': 'var(--chart-1)', // Correctly reference CSS variables
+          '1': 'var(--chart-1)',
           '2': 'var(--chart-2)',
           '3': 'var(--chart-3)',
           '4': 'var(--chart-4)',
           '5': 'var(--chart-5)',
         },
+        // Add new color for sidebar background
+        'background-left': '#f9f9f9', // super light grey for sidebar
       },
       borderRadius: {
         lg: 'var(--radius)',
