@@ -1,9 +1,0 @@
-{
-    "rewrites": [
-      {
-        "source": "/POC",
-        "destination": "/"
-      }
-    ]
-  }
-  
