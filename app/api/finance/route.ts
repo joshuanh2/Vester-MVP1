@@ -3,6 +3,11 @@ import { NextRequest } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import type { ChartData } from "@/types/chart";
 
+interface ContentBlock {
+  text: string;
+  // other properties
+}
+
 // Initialize Anthropic client with correct headers
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY!,
@@ -216,7 +221,8 @@ Never:
 
   // Parse the endpoints from the LLM response
   try {
-    const endpoints = JSON.parse(response.content[0].text);
+    const endpoints_string = response.content[0] as { text: string }
+    const endpoints = JSON.parse(endpoints_string.text);
     if (!Array.isArray(endpoints) || !endpoints.every((ep) => typeof ep === "string")) {
       throw new Error("Expected an array of endpoint strings : "+endpoints);
     }
@@ -300,7 +306,8 @@ Output Format:
 
   // Parse the LLM's response
   try {
-    const relevantData = JSON.parse(response.content[0].text);
+    const relevantData_string = response.content[0] as { text: string }
+    const relevantData = JSON.parse(relevantData_string.text);
     return relevantData;
   } catch (error) {
     console.error("Error parsing relevant data from LLM response:", error);
