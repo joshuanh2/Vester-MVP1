@@ -98,6 +98,8 @@ const tools: ToolSchema[] = [
   },
 ];
 
+
+
 // Function to generate CoinGecko API endpoints from user query
 async function generateCoinGeckoEndpoints(
   userQuery: string,
@@ -133,7 +135,6 @@ Endpoint	Description
 /coins/{id}/tickers	Endpoint to query the coin tickers on both centralized exchange (cex) and decentralized exchange (dex) based on a particular coin id
 /coins/{id}/history	Endpoint to query the historical data (price, market cap, 24hrs volume, etc) at a given date for a coin based on a particular coin id
 /coins/{id}/market_chart	Endpoint to get the historical chart data of a coin including time in UNIX, price, market cap and 24hrs volume based on particular coin id
-/coins/{id}/market_chart/range	Endpoint to get the historical chart data of a coin within certain time range in UNIX along with price, market cap and 24hrs volume based on particular coin id.
 /coins-id-ohlc	Endpoint to get the OHLC chart (Open, High, Low, Close) of a coin based on particular coin id
 /coins/{id}/contract/{contract_address}	Endpoint to query all the coin data (name, price, market .... including exchange tickers) on CoinGecko coin page based on asset platform and particular token contract address
 /coins/{id}/contract/{contract_address}/market_chart	Endpoint to get the historical chart data including time in UNIX, price, market cap and 24hrs volume based on asset platform and particular token contract address.
@@ -411,31 +412,28 @@ export async function POST(req: NextRequest) {
 
     // Step 1: Generate CoinGecko API endpoints
     let endpoints: string[];
+    let consolidatedData: {[key: string]: any} = {};
 
     try {
       endpoints = await generateCoinGeckoEndpoints(userQuery, model);
+      console.log("Endpoints generated from user query successfully.")
+        
+        // Step 2: Fetch and consolidate data from CoinGecko
+        consolidatedData = await fetchCoinGeckoData(endpoints, model,userQuery);
+    
+        if (Object.keys(consolidatedData).length === 0) {
+          console.log(JSON.stringify({ error: "Failed to fetch data from CoinGecko." }))
+        }
+        
+        else{console.log("Data generated from endpoints successfully.")}
+    
+
     } catch (error) {
-      return new Response(
-        JSON.stringify({ error: "Failed to generate CoinGecko API endpoints." }),
-        { status: 400 },
-      );
-    }
-
-    if (endpoints.length === 0) {
-      return new Response(
-        JSON.stringify({ error: "No endpoints generated from user query." }),
-        { status: 400 },
-      );
-    }
-
-    // Step 2: Fetch and consolidate data from CoinGecko
-    const consolidatedData = await fetchCoinGeckoData(endpoints, model,userQuery);
-
-    if (Object.keys(consolidatedData).length === 0) {
-      return new Response(
-        JSON.stringify({ error: "Failed to fetch data from CoinGecko." }),
-        { status: 400 },
-      );
+      console.log(JSON.stringify({ error: "Failed to obtain CoinGecko data." }))
+      // return new Response(
+      //   JSON.stringify({ error: "Failed to generate CoinGecko API endpoints." }),
+      //   { status: 400 },
+      //);
     }
 
     // Prepare messages for the visualization LLM call
@@ -447,9 +445,9 @@ export async function POST(req: NextRequest) {
           : JSON.stringify(msg.content),
     }));
 
-    // console.log(`Here is the that must be used for visualization:\n\n${JSON.stringify(
-    //     consolidatedData,
-    //   )}`)
+    console.log(`Here is the data that must be used for visualization:\n\n${JSON.stringify(
+        consolidatedData,
+      )}`)
 
     // Include the consolidated data in the conversation
     anthropicMessages.push({
@@ -590,10 +588,11 @@ Always:
 - When user asks for performance measures, specify the metric used in text chat
 - Populate time data as given in CoinGecko data ONLY - its in UNIX - convert it to UTC.
 - Remember today's date while populating data time values
+- Generate data if Coingecko data is unavailable
 
 Never:
 - Use placeholder or static data
-- Generate your own data
+- Generate your own data unless CoinGecko Data is Unavailable
 - Generate your own time values
 - Announce the tool usage
 - Include technical implementation details in responses
