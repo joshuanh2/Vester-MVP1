@@ -64,7 +64,7 @@ function BetaForm() {
       source: formData.get('source'),
     };
 
-    const response = await fetch('https://script.google.com/macros/s/AKfycbw87MYx5dbtTXsiajEJulBLo1-EFz5Lwili72MBfLWxDJZN7S_XS0DmBskpudePypQf/exec', {
+    const response = await fetch('https://script.google.com/macros/s/AKfycbyWwXpcqFqlbGa3d6zfYZSrwd1SGXgaaNHWxsCNJ4ODrZIFPBSD7MIMYm4FmKcEpoGQ/exec', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/x-www-form-urlencoded',
