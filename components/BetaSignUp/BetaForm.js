@@ -104,7 +104,7 @@ function BetaForm() {
   };
 
   return (
-    <div className='w-screen h-screen flex flex-col'>
+    <div className={`w-screen h-screen flex flex-col ${isMobile ? 'mobile-scrollable' : ''}`}>
     <div className="w-full h-full flex flex-col relative">
         
       {isPageLoading && !isMobile && (

@@ -10,6 +10,19 @@ body, html, #root {
   overflow: hidden;
 } */
 
+/* Enable scrolling for mobile */
+.mobile-scrollable {
+  overflow-y: auto;
+  height: auto;
+  min-height: 100vh;
+}
+
+/* Adjust canvas for scrollable mobile view */
+.mobile-scrollable .canvas-wrapper {
+  position: fixed; /* Keep canvas fixed in the background */
+  z-index: -1; /* Ensure canvas is behind content */
+}
+
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px transparent inset !important; /* Set to transparent */
   background-color: transparent !important; /* Additional transparency setting */
@@ -64,17 +77,21 @@ textarea:focus {
   margin-left: 0;
   margin-top: 0;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */ /* Remove fixed height to allow content to grow */
+  min-height: 100vh; /* Ensure it takes at least full viewport height */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0 20px;
+  padding: 50px 20px; /* Add some padding top/bottom */
   z-index: 1;
 }
 
 .content-wrapper.mobile-view.show-form {
-  transform: translateY(10px); /* Keep content centered */
+  /* transform: translateY(-120px); */ /* Remove transform as scrolling handles positioning */
+  justify-content: flex-start; /* Align content to top when form is shown */
+  padding-top: 80px; /* Add padding to push content down slightly */
+  transform: none !important; /* Override any potential inherited transforms */
 }
 
 .content.mobile-content {
@@ -185,10 +202,20 @@ textarea:focus {
 .sign-up-form.mobile-form {
   width: 100%;
   max-width: 400px;
-  margin: 0 auto;
+  margin: 20px auto; /* Add margin top/bottom */
   padding: 20px;
   border-radius: 10px;
   backdrop-filter: blur(5px);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  visibility: hidden;
+}
+
+.content-wrapper.show-form .sign-up-form.mobile-form {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
 }
 
 .sign-up-form label {
@@ -268,12 +295,12 @@ textarea:focus {
   }
   
   .body-1 {
-    font-size: 16px !important; /* Smaller font size for body text in mobile */
+    font-size: 14px !important; /* Smaller font size for body text in mobile */
   }
 
   .share-container p.body-1 {
     margin-top: 4px;
-    font-size: 16px; /* Even smaller font size for "FOLLOW US" */
+    font-size: 12px; /* Even smaller font size for "FOLLOW US" */
   }
   
   .sign-up-form {
