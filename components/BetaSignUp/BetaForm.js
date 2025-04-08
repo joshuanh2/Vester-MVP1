@@ -24,11 +24,27 @@ function BetaForm() {
   const [formSent, setFormSent] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   const router = useRouter();
   grid.register()
   tailspin.register()
 
+  // Check if screen width is less than 1000px
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 1000);
+    };
+    
+    // Initial check
+    checkIfMobile();
+    
+    // Add event listener for window resize
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', checkIfMobile);
+  }, []);
 
   // Scroll to bottom when component first loads
   useEffect(() => {
@@ -39,13 +55,17 @@ function BetaForm() {
     }); */
 
     // Lets the page load before showing all the content
-    const timer = setTimeout(() => {
-        setIsPageLoading(false);
-    }, 1000);
-  
-    // Cleanup timer if component unmounts before timeout completes
-    return () => clearTimeout(timer);
-
+    // Skip loading animation for mobile devices
+    if (window.innerWidth < 1000) {
+      setIsPageLoading(false);
+    } else {
+      const timer = setTimeout(() => {
+          setIsPageLoading(false);
+      }, 1000);
+    
+      // Cleanup timer if component unmounts before timeout completes
+      return () => clearTimeout(timer);
+    }
   }, []);
 
   const handleButtonClick = () => {
@@ -87,7 +107,7 @@ function BetaForm() {
     <div className='w-screen h-screen flex flex-col'>
     <div className="w-full h-full flex flex-col relative">
         
-      {isPageLoading && (
+      {isPageLoading && !isMobile && (
         <div className="loader-container">
           <div className="page-loader">
             <l-tailspin size="100" speed="0.9" stroke='15' color="white"></l-tailspin>
@@ -95,16 +115,29 @@ function BetaForm() {
         </div>
       )}
 
-          <button
-            onClick={() => router.push('/')} // Navigate back to the main page
-            className="fixed top-4 left-4 bg-none hover:bg-transparent text-white font-semibold py-2 px-4 rounded flex items-center z-20"
-          >
-            <ArrowLeft className="h-5 w-5 mr-1" /> {/* Icon */}
-            Back
-          </button>
+      {!isMobile && (
+      <button
+        onClick={() => router.push('/')} // Navigate back to the main page
+        className="fixed top-4 left-4 bg-none hover:bg-transparent text-white font-semibold py-2 px-4 rounded flex items-center z-20"
+      >
+        <ArrowLeft className="h-5 w-5 mr-1" /> {/* Icon */}
+        Back
+      </button>
+      )}
 
-      <div className={`content-wrapper ${showForm ? 'show-form' : ''} w-full h-full`}>
-        <div className="content">
+      <div className={`content-wrapper ${showForm ? 'show-form' : ''} w-full h-full ${isMobile ? 'mobile-view' : ''}`}>
+        <div className={`content ${isMobile ? 'mobile-content' : ''}`}>
+          {isMobile && (
+            <div className="mobile-logo-container">
+              <Image 
+                src="/vester-logo-short.svg" 
+                alt="Vester Logo" 
+                width={120} 
+                height={40} 
+                className="mobile-logo"
+              />
+            </div>
+          )}
 
           <p className='heading-1'>Your ticket to ride is here</p>
           <p className='body-1'>You'll receive an email with all the details shortly</p>
@@ -142,7 +175,7 @@ function BetaForm() {
         </div>
 
         {showForm && !formSent && (
-          <form onSubmit={handleFormSubmit} className="sign-up-form">
+          <form onSubmit={handleFormSubmit} className={`sign-up-form ${isMobile ? 'mobile-form' : ''}`}>
             <label>
               Name:
               <input type="text" name="name" required />
@@ -166,6 +199,7 @@ function BetaForm() {
         )}
       </div>
 
+      {/* Always show the canvas as background, but only render the Band component when not mobile */}
       <div className={`canvas-wrapper ${isDragging ? 'dragging' : ''} w-screen h-screen`}>
         <Canvas className="canvas w-screen h-screen" camera={{ position: [0, 0, 3], fov: 50 }}>
           <ambientLight intensity={10} />
@@ -176,7 +210,7 @@ function BetaForm() {
           */ }
           <Physics gravity={[0, -40, 0]}>
             <Suspense fallback={null}>
-              <Band setIsDragging={setIsDragging} />
+              {!isMobile && <Band setIsDragging={setIsDragging} />}
             </Suspense>
           </Physics>
           <Environment background blur={0.75}>

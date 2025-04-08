@@ -58,6 +58,46 @@ textarea:focus {
   transition: transform 0.5s ease;
 }
 
+/* Mobile styles */
+.content-wrapper.mobile-view {
+  position: relative;
+  margin-left: 0;
+  margin-top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1;
+}
+
+.content-wrapper.mobile-view.show-form {
+  transform: translateY(10px); /* Keep content centered */
+}
+
+.content.mobile-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+  /* background-color: rgba(26, 26, 26, 0.7); */
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
+}
+
+.mobile-logo-container {
+  margin-bottom: 40px;
+}
+
+.mobile-logo {
+  width: 120px;
+  height: auto;
+}
+
 .content-wrapper.show-form {
   transform: translateY(-80px); /* Adjust this value as needed */
 }
@@ -69,6 +109,7 @@ textarea:focus {
 
 .share-container {
   display: flex;
+  align-items: center;
   margin-top: 10px;
   margin-bottom: 15px;
 }
@@ -113,6 +154,15 @@ textarea:focus {
   transition: background-color 0.3s ease;
 }
 
+/* Center the sign-up button in mobile view */
+@media (max-width: 1000px) {
+  .sign-up-btn {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
+}
+
 .sign-up-btn:hover {
   background-color: #132F69;
 }
@@ -129,6 +179,16 @@ textarea:focus {
   margin-top: 10px;
   display: flex;
   flex-direction: column;
+}
+
+/* Mobile form styles */
+.sign-up-form.mobile-form {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+  backdrop-filter: blur(5px);
 }
 
 .sign-up-form label {
@@ -199,6 +259,33 @@ textarea:focus {
   font-weight: 700;
   font-family: "Inter Tight", sans-serif;
   margin-bottom: 16px;
+}
+
+/* Mobile typography and button adjustments */
+@media (max-width: 1000px) {
+  .heading-1 {
+    font-size: 4vh;
+  }
+  
+  .body-1 {
+    font-size: 16px !important; /* Smaller font size for body text in mobile */
+  }
+
+  .share-container p.body-1 {
+    margin-top: 4px;
+    font-size: 16px; /* Even smaller font size for "FOLLOW US" */
+  }
+  
+  .sign-up-form {
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .submit-btn {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+  }
 }
 
 .heading-2 {
